@@ -59,7 +59,7 @@ def seek_newest(list): # hittar det nyaste dramat i en lista av draman
 
 
 
-read_file("/Users/erik/Documents/Tillämpad Datalogi/Labb 1/kdrama.csv")
+read_file("/home/p/g/pgvhgvs/Documents/DD1320-Datalogi-Filer/kdrama.csv")
 
 breaking_bad_info = ["Breaking Bad",9.5,"Bryan Cranstaon, Aaron Paul, Anna Gunn",5.4,"Crime drama, Thriller","Vince Gilligan","Vince Gilligan",2008,62,"AMC"]
 chernobyl_info = ["Chernobyl",9.3,"Jared Harris, Jessie Buckley, Stellan Skarsgård",0.5,"Historical drama, Thriller", "Johan Renck", "Craig Mazin",2019,5,"HBO"]
@@ -72,11 +72,11 @@ print(breaking_bad.genre)
 print(breaking_bad < chernobyl)
 
 a,b =breaking_bad.produced_by()
-print("Director",a,"Writer",b)
+print(f"Director: {a} \nWriter: {b}") 
 print(chernobyl.years_after_1900(),"år efter 1900")
 
 
-drama_list = read_drama_from_file("/Users/erik/Documents/Tillämpad Datalogi/Labb 1/kdrama.csv")
+drama_list = read_drama_from_file("/home/p/g/pgvhgvs/Documents/DD1320-Datalogi-Filer/kdrama.csv")
 
 print(drama_list[1].years_after_1900())
 

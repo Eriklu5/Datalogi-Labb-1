@@ -80,6 +80,6 @@ drama_list = read_drama_from_file("/Users/erik/Documents/Tillämpad Datalogi/Lab
 
 print(drama_list[1].years_after_1900())
 
-
+#fett coolt
 c,d = seek_newest(drama_list)
 print(c,"is the newest drama, it is from",d)

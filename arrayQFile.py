@@ -4,17 +4,15 @@ class ArrayQ():
     def __init__(self):
         self.__items = array("b")
 
-    def is_empty(self):
+    def isEmpty(self):
         return not self.__items
 
     def enqueue(self,item):
             self.__items.append(item)
 
-
     def dequeue(self):
         item = self.__items.pop(0)
         return item
-
 
 if __name__=="__main__":
     q = ArrayQ()
@@ -27,4 +25,4 @@ if __name__=="__main__":
         print("OK")
     else:
         print("FAILED")
-    print(q.is_empty())
+    print(q.isEmpty())

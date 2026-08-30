@@ -1,15 +1,16 @@
 #labb 2
 from array import array
-from arrayQFile import ArrayQ
+#from arrayQFile import ArrayQ
+from linkedQFile import LinkedQ
 
 def trolleri():
-    kortlek = ArrayQ()
-    kort_ordning_in = input("Vilken ordning ligger korten i? ")
+#    kortlek = ArrayQ()
+    kortlek = LinkedQ()
+    kort_ordning_in = input()
     kort_ordning = kort_ordning_in.split(" ")
     for kort in kort_ordning:
-        kortlek.enqueue(int(kort))
-    print("De kommer ut i denna ordning: ",end="")
-    while not kortlek.is_empty():
+        kortlek.enqueue(kort)
+    while not kortlek.isEmpty():
         kort_i_hand = kortlek.dequeue()
         kortlek.enqueue(kort_i_hand)
         print(kortlek.dequeue(),end=" ")

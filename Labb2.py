@@ -1,10 +1,8 @@
 #labb 2
 from array import array
-#from arrayQFile import ArrayQ
 from linkedQFile import LinkedQ
 
-def trolleri():
-#    kortlek = ArrayQ()
+def trolleri(): 
     kortlek = LinkedQ()
     kort_ordning_in = input()
     kort_ordning = kort_ordning_in.split(" ")

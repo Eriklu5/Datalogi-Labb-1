@@ -1,53 +1,39 @@
 
-class Node:
-    def __init__(self,initdata):
-        self.data = initdata
-        self.next = None
-"""
-# detta är inte nödvändigt men att använda deom kanske gör koden mer lättläslig?
-    def getData(self):
-        return self.data
-
-    def getNext(self):
-        return self.next
-    
-    def setData(self,newdata):
-        self.data = newdata
-
-    def setNext(self,newnext):
-        self.next = newnext
-"""
+class Node: # En nod som används i en länkad lista
+    def __init__(self,initdata): # En nod innehåller två värden
+        self.data = initdata # Ett värde
+        self.next = None # Och vilken nästa nod i listan är
 
 
-class LinkedQ:
-    def __init__(self):
+class LinkedQ: # En länkad lista/kö
+    def __init__(self): # Listan innehåller värden för vilken nod som är först och sist i kön
         self.__first = None
         self.__last = None
 
-    def enqueue(self,item):
-        if self.__first == None:
+    def enqueue(self,item): # Lägger data i en nod och lägger noden sist i kön
+        if self.__first == None: # Om listan är tom
             self.__first = Node(item)
             self.__last = self.__first
-        else: 
-            self.__last.next = Node(item)
+        else: # Om listan redan innehåller noder
+            self.__last.next = Node(item) 
             self.__last = self.__last.next
 
-    def dequeue(self):
+    def dequeue(self): # Tar ut den nod som är först i kön och returnerar dess data
         item = self.__first
         if self.__first == self.__last:
             self.__first = None
             self.__last = None
-        else:
+        else: # Ändrar så att noden efter den första nu är den första
             self.__first = self.__first.next
         return item.data
 
-    def isEmpty(self):
+    def isEmpty(self): # Kollar om kön är tom och returnerar True/False
         return self.__first == None
 
 
 
+# Test för att se att klasserna fungerar korrekt
 import unittest
-
 class TestQueue(unittest.TestCase):
 
     def test_isEmpty(self):

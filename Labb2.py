@@ -1,11 +1,10 @@
 #labb 2
-from array import array
 from linkedQFile import LinkedQ
 
 def trolleri(): 
     kortlek = LinkedQ()
     kort_ordning_in = input()
-    kort_ordning = kort_ordning_in.split(" ")
+    kort_ordning = kort_ordning_in.strip().split(" ")
     for kort in kort_ordning:
         kortlek.enqueue(kort)
     while not kortlek.isEmpty():

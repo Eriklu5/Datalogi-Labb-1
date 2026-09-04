@@ -1,77 +1,25 @@
+from bintreeFile import Bintree
 
-class Node:
-    def __init__(self, item):
-        self.left = None
-        self.right = None
-        self.item = item
+def makeTree():
+    tree = Bintree()
+    data = input().strip()
+    while data != "#":
+        tree.put(data)
+        data = input().strip()
+    return tree
 
+def searches(tree):
+    findme = input().strip()
+    while findme != "#":
+        if findme in tree:
+            print(findme, "found")
+        else:
+            print(findme, "not found")
+        findme = input().strip()
 
-class Bintree:
-    def __init__(self):
-        self.root = None
+def main():
+    tree = makeTree()
+    searches(tree)
 
-    def put(self,newvalue):
-        # Sorterar in newvalue i trädet
+main()
 
-
-        self.root = putta(self.root,newvalue)
-
-
-
-        #self.root = putta(self.root,newvalue)
-
-
-
-
-    def __contains__(self,value):
-        # True om value finns i trädet, False annars
-        return finns(self.root,value)
-
-    def write(self):
-        # Skriver ut trädet i inorder
-        skriv(self.root)
-        print("\n")
-
-def putta(p, newvalue):
-    if p == None: 
-        return Node(newvalue)
-    
-    elif p.item < newvalue: # om värdet är samma så läggs det till höger borde kanske ha ett specialfall?
-        p.left = putta(p.left,newvalue)
-        return p
-    else:
-        p.right = putta(p.right,newvalue)
-        return p
-
-def finns(p,value):
-    pass
-
-
-
-
-
-def skriv(p):
-    pass
-
-
-
-
-svenska = Bintree()              # Skapa ett trädobjekt
-svenska.put("morot")
-
-print(svenska.root.item)		    # Sortera in "gurka" i trädet
-svenska.put("gurka")
-
-print(svenska.root.right.item)
-svenska.put("sallad")
-
-print(svenska.root.left.item)
-
-
-""" 
-if "gurka" in svenska:           # Kolla om "gurka" finns i trädet
-            - - -                        # (Operatorn in anropar metoden __contains__ 
-                                            # som du ska implementera i din Bintree-klass)
-            
-svenska.write()                  # Skriver alla trädobjektets ord i bokstavsordning
- """

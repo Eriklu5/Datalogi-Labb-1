@@ -1,5 +1,4 @@
 
-
 class Node:
     def __init__(self, item):
         self.left = None
@@ -22,25 +21,46 @@ class Bintree:
     def write(self):
         # Skriver ut trädet i inorder
         skriv(self.root)
-        print("\n")
+        #print("\n")
+
+
         
-    def putta(p, newvalue):
-        # Funktion som gör själva jobbet att stoppa in en ny nod
+def putta(p, newvalue):
+    # Funktion som gör själva jobbet att stoppa in en ny nod
+    if p == None:
+        return Node(newvalue)
 
-    def finns(p,value):
+    elif newvalue < p.item:
+        putta(p.left, newvalue)
+
+    else:
+        putta(p.right, newvalue)
+        
+
+
+def finns(p,value):
         # Funktion som gör själva jobbet att söka efter ett värde
+    letar = True
+    while letar:
+        if p == None: 
+            return False
+        if value == p.item: 
+            return True
+        if value < p.item: 
+            p = p.left
+        if value > p.item: 
+            p = p.right
 
-    def skriv(p):
-        # Funktion som gör själva jobbet att skriva ut trädet
-
-
+def skriv(p):
+    # Funktion som gör själva jobbet att skriva ut trädet
+    if p != None:
+        skriv(p.left)
+        print(p.item)
+        skriv(p.right)   
 
 
 svenska = Bintree()
 svenska.put("gurka")
-
-if "gurka" in svenska:
-    pass
 
 
 svenska.write()

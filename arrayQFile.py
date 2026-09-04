@@ -18,7 +18,7 @@ if __name__=="__main__": # Test för att se att klassen fungerar korrekt
     q = ArrayQ()
     q.enqueue(1)
     q.enqueue(2)
-    print(q.is_empty())
+    print(q.isEmpty())
     x = q.dequeue()
     y = q.dequeue()
     if (x == 1 and y == 2):

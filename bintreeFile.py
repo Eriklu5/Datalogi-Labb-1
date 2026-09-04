@@ -11,19 +11,7 @@ class Bintree:
 
     def put(self,newvalue):
         # Sorterar in newvalue i trädet
-
-        if self.root == None:
-            self.root = putta(self.root,newvalue)
-
-        elif newvalue < self.root.item:
-
-            self.root.left.put(newvalue)
-
-
-        #self.root = putta(self.root,newvalue)
-
-
-
+        self.root = putta(self.root,newvalue)
 
     def __contains__(self,value):
         # True om value finns i trädet, False annars
@@ -34,29 +22,49 @@ class Bintree:
         skriv(self.root)
         print("\n")
 
+
+        
 def putta(p, newvalue):
-    if p == None: 
+    # Funktion som gör själva jobbet att stoppa in en ny nod
+    if p == None:
         return Node(newvalue)
 
-    else: 
-        p
+    elif newvalue < p.item:
+        putta(p.left, newvalue)
+
+    else:
+        putta(p.right, newvalue)
+        
+
 
 def finns(p,value):
-    pass
-
-
-
-
+        # Funktion som gör själva jobbet att söka efter ett värde
+    letar = True
+    while letar:
+        if p == None: 
+            return False
+        if value == p.item: 
+            return True
+        if value < p.item: 
+            p = p.left
+        if value > p.item: 
+            p = p.right
 
 def skriv(p):
-    pass
+    # Funktion som gör själva jobbet att skriva ut trädet
+    if p != None:
+        skriv(p.left)
+        print(p.item)
+        skriv(p.right)   
 
 
+svenska = Bintree()
+svenska.put("gurka")
 
 
-svenska = Bintree()              # Skapa ett trädobjekt
-svenska.put("gurka")		    # Sortera in "gurka" i trädet	
-print(svenska.root.item)
+svenska.write()
+
+
 """ 
 if "gurka" in svenska:           # Kolla om "gurka" finns i trädet
             - - -                        # (Operatorn in anropar metoden __contains__ 

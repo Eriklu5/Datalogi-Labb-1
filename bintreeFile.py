@@ -31,10 +31,10 @@ def putta(p, newvalue):
 
     elif newvalue < p.item:
         p.left = putta(p.left, newvalue)
-
+        return p
     else:
         p.right = putta(p.right, newvalue)
-        
+        return p
 
 
 def finns(p,value):
@@ -47,7 +47,7 @@ def finns(p,value):
             return True
         if value < p.item: 
             p = p.left
-        if value > p.item: 
+        elif value > p.item: 
             p = p.right
 
 def skriv(p):

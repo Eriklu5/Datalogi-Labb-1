@@ -30,10 +30,10 @@ def putta(p, newvalue):
         return Node(newvalue)
 
     elif newvalue < p.item:
-        putta(p.left, newvalue)
+        p.left = putta(p.left, newvalue)
 
     else:
-        putta(p.right, newvalue)
+        p.right = putta(p.right, newvalue)
         
 
 
@@ -57,12 +57,6 @@ def skriv(p):
         print(p.item)
         skriv(p.right)   
 
-
-svenska = Bintree()
-svenska.put("gurka")
-
-
-svenska.write()
 
 
 """ 

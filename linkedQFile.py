@@ -1,16 +1,19 @@
         
 class Node:
+    # Skapar en nod som innehåller ett värde och pekar på nästa nod, annars på none
     def __init__(self, data):
         self.data = data
         self.next = None
 
 class LinkedQ:
+    # Skapar en linkad lista av noder med metoder som lägger till, tar bort, och kollar om listan är tom
     def __init__(self):
         self.__first = None
         self.__last = None
 
 
     def enqueue(self, data):
+        # Lägger till, två fall, första om listan är tom annars om den inte är det
         if self.__first == None:
             self.__first = Node(data)
             self.__last = self.__first
@@ -19,6 +22,7 @@ class LinkedQ:
             self.__last = self.__last.next
 
     def dequeue(self):
+        # Tar bort första noden och returnar dess värde, om den är tom så returnar None istället
         first = self.__first
 
         if self.isEmpty(): 
@@ -34,6 +38,7 @@ class LinkedQ:
         return first.data
 
     def isEmpty(self):
+        # Kollar om det finns ett första element, om inte är den tom
         if self.__first == None:
             return True
         else:

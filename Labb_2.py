@@ -5,7 +5,7 @@ from linkedQFile import LinkedQ
 
 def trolleri():
 
-    spel = LinkedQ
+    spel = LinkedQ()
     start_ordning = input()
     start_ordning = start_ordning.strip().split()
 
@@ -18,7 +18,7 @@ def trolleri():
 
         spel.enqueue(första_kort)
 
-        print(spel.dequeue)
+        print(spel.dequeue())
 
 
 trolleri()

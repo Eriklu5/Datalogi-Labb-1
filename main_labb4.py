@@ -4,8 +4,10 @@ from linkedQFile import LinkedQ
 ALFABET = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","å","ä","ö"]
 
 
-
+gamla = Bintree()
 svenska = Bintree()
+
+
 with open("word3.txt", "r", encoding = "utf-8") as svenskfil:
     for rad in svenskfil:
         ordet = rad.strip()                # Ett trebokstavsord per rad
@@ -13,13 +15,6 @@ with open("word3.txt", "r", encoding = "utf-8") as svenskfil:
             pass
         else:
             svenska.put(ordet)             # in i sökträdet
-
-
-
-
-gamla = Bintree()
-
-
 
 
 def makechildren(startord,q):
@@ -47,12 +42,12 @@ def main():
     q.enqueue(startord)
     while not q.isEmpty():
         word = q.dequeue()
-        makechildren(word, q)
         if word == slutord:
             print("Det finns en väg till", slutord)
             break
+        makechildren(word, q)
 
-    if q.isEmpty():
+    else:
         print("Det finns ingen väg till", slutord)
 
 

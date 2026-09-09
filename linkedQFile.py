@@ -6,7 +6,11 @@ class Node:
         self.next = None
 
 class LinkedQ:
-    # Skapar en linkad lista av noder med metoder som lägger till, tar bort, och kollar om listan är tom
+    """Skapar en länkad lista av noder 
+    \n Metoder: 
+    \n  def enqueue(any) lägger till element i kö
+    \n  def dequeue(any) returerar element först i kö
+    \n  def isEmpty() kollar om det finns ett första element, returerar True eller False """
     def __init__(self):
         self.__first = None
         self.__last = None

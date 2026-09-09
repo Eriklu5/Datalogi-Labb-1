@@ -20,3 +20,4 @@ with open("Datalogi-Labb-1/engelska.txt", "r", encoding = "utf-8") as engelskfil
                 engelska.put(ord)
                 if ord in svenska:
                     print(ord, end = " ")
+                    

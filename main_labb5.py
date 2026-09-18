@@ -51,7 +51,6 @@ def makechildren(stamfar, q, slutord):
                     
 
 def writechain(slutordsnod):
-    # "Ska skrivas rekursivt, så att man får ut kedjan med slutordet sist." Alltså Pre-order liknande???
     if slutordsnod.förälder != None:  
         writechain(slutordsnod.förälder)
     print(slutordsnod.ord)
@@ -70,11 +69,7 @@ def main():
     try:
         while not q.isEmpty():
             nod = q.dequeue()
-            if nod.ord == slutord:
-                print("Det finns en väg till", slutord)
-                break
-            makechildren(nod, q, slutord) # Möjligtvis ska makechildren ta in slutord som parameter och sedan ska makechildren göra utskriften "det finns en väg". 
-            # Eftersom i labb 5 beskrivningen står det att makechildren ska, om den hittat slutordet från nya orden, anropa writechain som ger utskrift
+            makechildren(nod, q, slutord)
 
         else:
             print("Det finns ingen väg till", slutord)

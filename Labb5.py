@@ -56,6 +56,7 @@ try:
     while not q.isEmpty():
         word = q.dequeue()
         makechildren(word, q)
+    print("Det finns inte en väg till", slutord)
 
 except SolutionFound: 
     pass

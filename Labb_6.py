@@ -14,6 +14,7 @@ def binary_search(a_list, TrgVal):
             right = mid - 1
 
     print(None)
+    # https://leetcode.com/explore/learn/card/binary-search/125/template-i/938/
 
 
 list = input().split()
@@ -31,6 +32,7 @@ for value in TrgValues:
  """
 
 
+
 class song:
     def __init__(self, track_id, song_id, artist, title):
         self.track_id = track_id
@@ -38,18 +40,205 @@ class song:
         self.artist = artist
         self.title = title
 
+    def __str__(self):
+        return self.title + "av" + self.artist
+
 
     def lt(self, other):
-        if self.artist < other.artist:
-            return True
+        return self.artist < other.artist
+
+def readfile(file = "unique_tracks.txt"):
+    rader = []
+    with open(file, "r") as file:
+        for rad in file:
+            rad = rad.split("<SEP>")
+            for item in rad:
+                rader.append(song(*rad))
+    return rader
+
+""" 
+Vad representerar parametern stmt?
+    a statement to be timed
+
+Vad representerar parametern number?
+    number of executions.
+
+Vad är det timeit tar tid på?
+    Executes the setup statement once,
+    and then returns the time it takes to execute the main statement a number of times. 
+
+Vad skrivs ut av ett anrop av timeit?
+    The default timer returns seconds as a float. 
+    The argument is the number of times through the loop, defaulting to one million. """
+
+
+import timeit
+
+timeit.timeit
+
+
+
+def linear_search(list, target):
+    for x in list:
+        if x == target:
+            return x
         else:
-            return False
+            return -1
 
 
 
-rader = []
-with open("unique_tracks.txt", "r") as file:
-    for rad in file:
-        rad = rad.split("<SEP>")
-        for item in rad:
-            rader.append(song(*rad))
+def binary_search(list, target):
+    left, right = 0, len(list) - 1
+
+    list = sorted(list)
+    # list.sort() 
+
+    while left <= right:
+        mid = (left + right) // 2
+        if list[mid] == target:
+            return mid
+        elif list[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+
+
+def hash_search(list, target):
+    """ GPT-5.6 Luna, Prompt: 
+        def hash_search(list, target):
+            dict() 
+            """
+    lookup = {}
+
+    for i, value in enumerate(list):
+        lookup[value] = i
+
+    return lookup.get(target, -1)
+
+
+
+def main():
+
+    lista = readfile()
+    n = len(lista)
+    print("Antal element =", n)
+
+    sista = lista[n-1]
+    testartist = sista.artist
+
+    linjtid = timeit.timeit(stmt = lambda: linear_search(lista, testartist), number = 10000)
+    print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
+
+
+
+
+
+def insertion_sort():
+    """ Insertion sort iterates, consuming one input element each repetition and growing a sorted output list.
+At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list and inserts it there.
+It repeats until no input elements remain. """
+
+
+
+""" void insertionSort(int a[], int n) {
+    // We treat a[0..i-1] as the sorted part, and a[i..end] as unsorted.
+    for (int i = 1; i < n; i++) {
+        int key = a[i];  // The value we want to insert into the sorted prefix.
+        int j = i - 1;
+
+        // Shift larger elements one position to the right
+        // until we find where 'key' belongs.
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+
+        // Place 'key' into the gap created by shifting.
+        a[j + 1] = key;
+    }
+} """
+
+
+
+
+def quick_sort():
+    """ # https://www.geeksforgeeks.org/dsa/quick-sort-algorithm/
+# partition function
+def partition(arr, low, high):
+    
+    # choose the pivot
+    pivot = arr[high]
+    
+    # index of smaller element and indicates 
+    # the right position of pivot found so far
+    i = low - 1
+    
+    # traverse arr[low..high] and move all smaller
+    # elements to the left side. Elements from low to 
+    # i are smaller after every iteration
+    for j in range(low, high):
+        if arr[j] < pivot:
+            i += 1
+            swap(arr, i, j)
+    
+    # move pivot after smaller elements and
+    # return its position
+    swap(arr, i + 1, high)
+    return i + 1
+
+# swap function
+def swap(arr, i, j):
+    arr[i], arr[j] = arr[j], arr[i]
+
+# the QuickSort function implementation
+def quickSort(arr, low, high):
+    if low < high:
+        
+        # pi is the partition return index of pivot
+        pi = partition(arr, low, high)
+        
+        # recursion calls for smaller elements
+        # and greater or equals elements
+        quickSort(arr, low, pi - 1)
+        quickSort(arr, pi + 1, high)
+
+if __name__ == "__main__":
+    arr = [10, 7, 8, 9, 1, 5]
+    n = len(arr)
+
+    quickSort(arr, 0, n - 1)
+    
+    for val in arr:
+        print(val, end=" ")
+     """
+
+
+
+
+""" # https://www.w3schools.com/dsa/dsa_algo_quicksort.php
+def partition(array, low, high):
+    pivot = array[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if array[j] <= pivot:
+            i += 1
+            array[i], array[j] = array[j], array[i]
+
+    array[i+1], array[high] = array[high], array[i+1]
+    return i+1
+
+def quicksort(array, low=0, high=None):
+    if high is None:
+        high = len(array) - 1
+
+    if low < high:
+        pivot_index = partition(array, low, high)
+        quicksort(array, low, pivot_index-1)
+        quicksort(array, pivot_index+1, high)
+
+my_array = [64, 34, 25, 12, 22, 11, 90, 5]
+quicksort(my_array)
+print("Sorted array:", my_array) """

@@ -51,6 +51,8 @@ def makechildren(stamfar, q, slutord):
                     
 
 def writechain(slutordsnod):
+    """ Går igenom varje nods förälder tills den når toppen (förälder = None), 
+    när den nått toppen så printar den varje nods ord """
     if slutordsnod.förälder != None:  
         writechain(slutordsnod.förälder)
     print(slutordsnod.ord)

@@ -17,18 +17,13 @@ def binary_search(a_list, TrgVal):
     # https://leetcode.com/explore/learn/card/binary-search/125/template-i/938/
 
 
-list = input().split()
-TrgValues = []
+list = input().strip().split()
 
 
-value = input()
+value = input().strip()
 while value != "#": 
-    TrgValues.append(value)
-    value = input()
-
-for value in TrgValues:
     binary_search(list, value)
-
+    value = input()
  """
 
 
@@ -47,13 +42,14 @@ class song:
     def lt(self, other):
         return self.artist < other.artist
 
+
+
 def readfile(file = "unique_tracks.txt"):
     rader = []
     with open(file, "r") as file:
         for rad in file:
             rad = rad.split("<SEP>")
-            for item in rad:
-                rader.append(song(*rad))
+            rader.append(song(*rad))
     return rader
 
 """ 
@@ -82,8 +78,8 @@ def linear_search(list, target):
     for x in list:
         if x == target:
             return x
-        else:
-            return -1
+    else:
+        return -1
 
 
 
@@ -118,6 +114,7 @@ def hash_search(list, target):
     return lookup.get(target, -1)
 
 
+search_function_list = [linear_search, binary_search, hash_search]
 
 def main():
 
@@ -127,10 +124,11 @@ def main():
 
     sista = lista[n-1]
     testartist = sista.artist
+    for search_function in search_function_list:
+        linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 10)
+        print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
 
-    linjtid = timeit.timeit(stmt = lambda: linear_search(lista, testartist), number = 10000)
-    print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
-
+main()
 
 
 
@@ -242,3 +240,6 @@ def quicksort(array, low=0, high=None):
 my_array = [64, 34, 25, 12, 22, 11, 90, 5]
 quicksort(my_array)
 print("Sorted array:", my_array) """
+
+
+

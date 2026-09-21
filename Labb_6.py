@@ -36,11 +36,11 @@ class song:
         self.title = title
 
     def __str__(self):
-        return self.title + "av" + self.artist
+        return self.title + "av " + self.artist
 
 
-    def lt(self, other):
-        return self.artist < other.artist
+    def __lt__(self, other):
+        return self.title < other.title
 
 
 
@@ -79,55 +79,75 @@ def linear_search(list, target):
         if x == target:
             return x
     else:
-        return -1
+        print(False)
 
 
 
 def binary_search(list, target):
     left, right = 0, len(list) - 1
 
-    list = sorted(list)
-    # list.sort() 
 
     while left <= right:
         mid = (left + right) // 2
-        if list[mid] == target:
-            return mid
+        if list[mid].title == target.title:
+            return target
         elif list[mid] < target:
             left = mid + 1
         else:
             right = mid - 1
-    return -1
+    else: print(False)
 
 
 
-def hash_search(list, target):
-    """ GPT-5.6 Luna, Prompt: 
+""" def hash_search(list, target):
+"""     """ GPT-5.6 Luna, Prompt: 
         def hash_search(list, target):
             dict() 
-            """
+            """ """
     lookup = {}
-
+    
     for i, value in enumerate(list):
         lookup[value] = i
 
-    return lookup.get(target, -1)
+    if lookup.get(target) != None:
+        return lookup[target]
+    else: print(False) """
 
 
-search_function_list = [linear_search, binary_search, hash_search]
+def create_hash_table(lista):
+    lookup = {}
+
+    for song in lista:
+        lookup[song.title] = song
+
+    return lookup
+
+def hash_search(lookup, target):
+    return lookup.get(target.title)
+
+
+
+search_function_list = [linear_search, binary_search]
 
 def main():
 
     lista = readfile()
+    dictionary = create_hash_table(lista)
+    lista.sort()
+
     n = len(lista)
     print("Antal element =", n)
-
+    
     sista = lista[n-1]
-    testartist = sista.artist
+    testartist = sista
+
     for search_function in search_function_list:
         linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 10)
-        print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
+        print(search_function.__name__, "tog", round(linjtid, 4) , "sekunder\n")
 
+    linjtid = timeit.timeit(stmt = lambda: hash_search(dictionary, testartist), number = 1000)
+    print(hash_search.__name__, "tog", round(linjtid, 4) , "sekunder\n")
+      
 main()
 
 
@@ -242,4 +262,119 @@ quicksort(my_array)
 print("Sorted array:", my_array) """
 
 
+""" 
+def main():
 
+    lista = readfile()
+    n = len(lista)
+    print("Antal element =", n)
+    
+    sista = lista[n-1]
+    testartist = sista
+
+    for search_function in search_function_list:
+        linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 1)
+        print(search_function.__name__, "tog", round(linjtid, 4) , "sekunder")
+      
+main() """
+
+
+
+
+
+""" Förklara skillnaden i uppmätta tider när storleken på listan varieras:
+
+mellan de olika sökningsmetoderna
+mellan de olika sorteringsmetoderna. 
+
+
+
+Visa hur dina sök-, och sorteringsfunktioner fungerar,
+Förklara och redovisa vilken tidskomplexitet dina algoritmer har,
+Förklara skillnaden i tid mellan de olika sökningsmetoderna och mellan de olika sorteringsmetoderna."""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from codecarbon import OfflineEmissionsTracker
+
+
+
+tracker = OfflineEmissionsTracker(
+    project_name = "helloworld",
+    country_iso_code="SWE",         # välj Sverige som land för beräkning av koldioxidkonsumption
+    log_level="error",              # kör spåraren i "tyst" läge
+    save_to_file=False              # spara inte resultatet som csv-fil
+)
+
+tracker.start_task()
+pass                                # spåraren tittar bara på det som händer mellan start_task och stop_task!
+co2 = tracker.stop_task()           # lagra resultatet i en variabel
+
+tracker.start_task()                # det går bra att spåra flera olika algoritmer i samma körning
+pass
+co2_b = tracker.stop_task()         # ...men kom ihåg att ändra variabelnamnet
+
+print(co2.emissions * 1000)         # multiplicera med 1000 för att skriva ut i g CO2 (istället för kg)
+
+""" 
+Fyll i tider och koldioxidutsläpp i en tabell på samma sätt som du gjorde i uppgiften ovan. 
+
+Modulen codecarbon utgår ifrån den genomsnittliga koldioxidproduktionen per kWh för det angivna landets elproduktion. Sverige har en relativt koldioxidsnål elproduktion; testa att ändra land till t ex USA eller Kina (CHN), där många molntjänsters servrar finns, och jämför resultaten!
+
+ """

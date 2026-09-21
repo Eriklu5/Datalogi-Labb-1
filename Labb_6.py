@@ -123,7 +123,9 @@ def create_hash_table(lista):
     return lookup
 
 def hash_search(lookup, target):
-    return lookup.get(target.title)
+    if lookup.get(target.title) != None:
+        return lookup.get(target.title)
+    else: print(False)
 
 
 
@@ -142,7 +144,7 @@ def main():
     testartist = sista
 
     for search_function in search_function_list:
-        linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 10)
+        linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 100)
         print(search_function.__name__, "tog", round(linjtid, 4) , "sekunder\n")
 
     linjtid = timeit.timeit(stmt = lambda: hash_search(dictionary, testartist), number = 1000)
@@ -153,10 +155,31 @@ main()
 
 
 
-def insertion_sort():
-    """ Insertion sort iterates, consuming one input element each repetition and growing a sorted output list.
+def insertion_sort(list, n):
+    for i in range(n):
+        key = list[i]
+        j = i - 1
+
+        while j>=0 and list[j] > key:
+            list[j + 1] = list[j]
+            j -= 1
+
+        list[j + 1] = key
+
+
+lista = [5, 2, 8, 1, 3]
+
+insertion_sort(lista, len(lista))
+
+print(lista)
+
+
+
+
+""" Insertion sort iterates, consuming one input element each repetition and growing a sorted output list.
 At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list and inserts it there.
-It repeats until no input elements remain. """
+It repeats until no input elements remain. 
+Wikipedia"""
 
 
 
@@ -182,11 +205,13 @@ It repeats until no input elements remain. """
 
 
 def quick_sort():
+
+
     """ # https://www.geeksforgeeks.org/dsa/quick-sort-algorithm/
 # partition function
 def partition(arr, low, high):
     
-    # choose the pivot
+    # choose the pivot    for  in :
     pivot = arr[high]
     
     # index of smaller element and indicates 
@@ -234,19 +259,36 @@ if __name__ == "__main__":
 
 
 
-
-""" # https://www.w3schools.com/dsa/dsa_algo_quicksort.php
+""" 
+ # https://www.w3schools.com/dsa/dsa_algo_quicksort.php
 def partition(array, low, high):
     pivot = array[high]
     i = low - 1
 
     for j in range(low, high):
-        if array[j] <= pivot:
+        if array[j] < pivot:
             i += 1
             array[i], array[j] = array[j], array[i]
 
     array[i+1], array[high] = array[high], array[i+1]
-    return i+1
+    return i+1 """
+
+
+def partition(array, low, high):
+    mid = (low + high) // 2
+    array[mid], array[high] = array[high], array[mid]
+
+    pivot = array[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if array[j] < pivot:
+            i += 1
+            array[i], array[j] = array[j], array[i]
+
+    array[i + 1], array[high] = array[high], array[i + 1]
+
+    return i + 1
 
 def quicksort(array, low=0, high=None):
     if high is None:
@@ -257,27 +299,49 @@ def quicksort(array, low=0, high=None):
         quicksort(array, low, pivot_index-1)
         quicksort(array, pivot_index+1, high)
 
+""" 
+def quicksort(array, low=0, high=None):
+    if high is None:
+        high = len(array) - 1
+
+    if low < high:
+        pivot_index = partition(array, low, high)
+
+        quicksort(array, low, pivot_index - 1)
+        quicksort(array, pivot_index + 1, high)
+ """
 my_array = [64, 34, 25, 12, 22, 11, 90, 5]
 quicksort(my_array)
-print("Sorted array:", my_array) """
+print("Sorted array:", my_array)
 
 
-""" 
+
 def main():
 
-    lista = readfile()
+    lista = readfile("unique_eighth.txt")
+    lista = lista[0:10000]
     n = len(lista)
     print("Antal element =", n)
-    
-    sista = lista[n-1]
-    testartist = sista
 
-    for search_function in search_function_list:
-        linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 1)
-        print(search_function.__name__, "tog", round(linjtid, 4) , "sekunder")
+    linjtid = timeit.timeit(stmt = lambda: insertion_sort(lista, n), number = 1)
+    print(insertion_sort.__name__, "tog", round(linjtid, 4) , "sekunder\n")
       
-main() """
+main() 
 
+def main():
+
+
+    lista = readfile("unique_eighth.txt")
+    lista = lista[0:10000]
+
+    quicksort(lista)
+    n = len(lista)
+    print("Antal element =", n)
+
+    linjtid = timeit.timeit(stmt = lambda: quicksort(lista), number = 1)
+    print(quicksort.__name__, "tog", round(linjtid, 4) , "sekunder")
+      
+main() 
 
 
 

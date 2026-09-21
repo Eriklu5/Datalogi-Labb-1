@@ -7,6 +7,8 @@ class ParentNode:
         self.ord = ord
         self.förälder = förälder
 
+class SolutionFound(Exception):
+    pass
 
 alfabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","å","ä","ö"]
 svenska = Bintree()
@@ -22,7 +24,6 @@ with open("Datalogi-Labb-1/word3.txt", "r", encoding = "utf-8") as svenskfil:
 
 def makechildren(startord,kö):
     for index, versal in enumerate(startord.ord): 
-        # funkar en gång med () men inte en andra utan () funkar den inte första gången
         for bokstav in alfabet:
             nyttord = startord.ord
             if bokstav == versal:
@@ -32,28 +33,29 @@ def makechildren(startord,kö):
                 if nyttord in svenska and not nyttord in gamla:
                     kö.enqueue(ParentNode(nyttord,startord))
                     gamla.put(nyttord)
+                if word.ord == slutord:    
+                    print("Det finns en väg till", slutord)
+                    writechain(word)
+                    raise SolutionFound
 
 
 
 def writechain(node):
     if node.förälder != None:
         writechain(node.förälder)
-    print(node.ord,end=" ")
+    print(node.ord)
 
 
 q = LinkedQ()
-startord = input("Vad är startordet? ").lower()
-slutord = input("Vad är slutordet? ").lower()
+startord = input("Vad är startordet? ").lower().strip()
+slutord = input("Vad är slutordet? ").lower().strip()
 
 
 q.enqueue(ParentNode(startord))
+try:
+    while not q.isEmpty():
+        word = q.dequeue()
+        makechildren(word, q)
 
-while not q.isEmpty():
-    word = q.dequeue()
-    makechildren(word, q)
-    if word.ord == slutord:    
-        print("Det finns en väg från", startord, "till", slutord)
-        writechain(word)
-        break
-else:
-    print("Det finns ingen väg till", slutord)
+except SolutionFound: 
+    pass

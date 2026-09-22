@@ -271,8 +271,11 @@ def partition(array, low, high):
             array[i], array[j] = array[j], array[i]
 
     array[i+1], array[high] = array[high], array[i+1]
-    return i+1 """
+    return i+1
+ """
 
+# Övande kod ger felmeddelande: "RecursionError: maximum recursion depth exceeded", när jag skriver in detta 
+# och ovanstående kod i Chat-5.6 Luna, erhålls nedanstående kod: 
 
 def partition(array, low, high):
     mid = (low + high) // 2
@@ -299,119 +302,11 @@ def quicksort(array, low=0, high=None):
         quicksort(array, low, pivot_index-1)
         quicksort(array, pivot_index+1, high)
 
-""" 
-def quicksort(array, low=0, high=None):
-    if high is None:
-        high = len(array) - 1
 
-    if low < high:
-        pivot_index = partition(array, low, high)
 
-        quicksort(array, low, pivot_index - 1)
-        quicksort(array, pivot_index + 1, high)
- """
 my_array = [64, 34, 25, 12, 22, 11, 90, 5]
 quicksort(my_array)
 print("Sorted array:", my_array)
-
-
-
-def main():
-
-    lista = readfile("unique_eighth.txt")
-    lista = lista[0:10000]
-    n = len(lista)
-    print("Antal element =", n)
-
-    linjtid = timeit.timeit(stmt = lambda: insertion_sort(lista, n), number = 1)
-    print(insertion_sort.__name__, "tog", round(linjtid, 4) , "sekunder\n")
-      
-main() 
-
-def main():
-
-
-    lista = readfile("unique_eighth.txt")
-    lista = lista[0:10000]
-
-    quicksort(lista)
-    n = len(lista)
-    print("Antal element =", n)
-
-    linjtid = timeit.timeit(stmt = lambda: quicksort(lista), number = 1)
-    print(quicksort.__name__, "tog", round(linjtid, 4) , "sekunder")
-      
-main() 
-
-
-
-
-""" Förklara skillnaden i uppmätta tider när storleken på listan varieras:
-
-mellan de olika sökningsmetoderna
-mellan de olika sorteringsmetoderna. 
-
-
-
-Visa hur dina sök-, och sorteringsfunktioner fungerar,
-Förklara och redovisa vilken tidskomplexitet dina algoritmer har,
-Förklara skillnaden i tid mellan de olika sökningsmetoderna och mellan de olika sorteringsmetoderna."""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -442,3 +337,52 @@ Fyll i tider och koldioxidutsläpp i en tabell på samma sätt som du gjorde i u
 Modulen codecarbon utgår ifrån den genomsnittliga koldioxidproduktionen per kWh för det angivna landets elproduktion. Sverige har en relativt koldioxidsnål elproduktion; testa att ändra land till t ex USA eller Kina (CHN), där många molntjänsters servrar finns, och jämför resultaten!
 
  """
+
+
+tracker.start_task()
+
+def main():
+
+    lista = readfile("unique_eighth.txt")
+    lista = lista[0:10000]
+    n = len(lista)
+    print("Antal element =", n)
+
+    linjtid = timeit.timeit(stmt = lambda: insertion_sort(lista, n), number = 1)
+    print(insertion_sort.__name__, "tog", round(linjtid, 4) , "sekunder\n")
+      
+main() 
+
+co2=tracker.stop_task()
+
+tracker.start_task()
+
+def main():
+
+
+    lista = readfile("unique_eighth.txt")
+    lista = lista[0:10000]
+
+    quicksort(lista)
+    n = len(lista)
+    print("Antal element =", n)
+
+    linjtid = timeit.timeit(stmt = lambda: quicksort(lista), number = 1)
+    print(quicksort.__name__, "tog", round(linjtid, 4) , "sekunder")
+      
+main() 
+co2_b=tracker.stop_task()
+
+print(co2.emissions * 1000, co2_b.emissions * 1000)
+
+""" Förklara skillnaden i uppmätta tider när storleken på listan varieras:
+
+mellan de olika sökningsmetoderna
+mellan de olika sorteringsmetoderna. 
+
+
+
+Visa hur dina sök-, och sorteringsfunktioner fungerar,
+Förklara och redovisa vilken tidskomplexitet dina algoritmer har,
+Förklara skillnaden i tid mellan de olika sökningsmetoderna och mellan de olika sorteringsmetoderna."""
+

@@ -13,6 +13,8 @@ class Hashtable:
         """size: hashtabellens storlek"""
         self.size = size
         self.slots = [None] *size
+        # om man vill hantera krockar med buckets (arrays i hashindex), [[] for _ in range(size)] https://www.w3schools.com/dsa/dsa_data_hashsets.php
+
 
 
     def store(self, key, data):
@@ -75,8 +77,9 @@ class Hashtable:
         return h % self.size
 
 
-    def rehash(self, old_hash): # Finns olika metoder för att hitta en ny plats i hashtabellen när en krock sker. Tror detta är "linjär probning", 
-        # dvs leta efter ledig plats (en hashtabell ska ha många fler platser än vad som förväntas lagras) detta ger dock problemet "klustring" 
+    def rehash(self, old_hash): # Finns olika metoder för att hitta en ny plats i hashtabellen när en krock sker. Detta är "linjär probning", 
+        # dvs leta efter ledig plats med inkrement 1 (en hashtabell ska ha många fler platser än vad som förväntas lagras) detta ger dock problemet "klustring" 
         # då vi får en väldigt stor densitet av lagrade element i listan där det redan skett en krock. 
-        # Finns annars kvadratisk probning, dubbelhashning (nested hasning) etc, då ett hashvärde har en lista i sig med flera lediga positioner
+        # Finns andra typer av probning (Open addressing) kvadratisk probning (inkrement kvadratiskt), dubbelhashning (också en probning, använd en separat hashing och multiplicera med det inkrementet) 
+        # (Seperate chaining) buckets (då ett hashvärde har en lista (array) i sig med flera lediga positioner)
         return (old_hash + 1) % self.size

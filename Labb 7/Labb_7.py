@@ -3,6 +3,10 @@ from Labb_1 import Drama
 import csv
 
 
+
+""" Gör om labb 7 fast utan en linjär probning, utan med en dubbel hashning eller en annan probning!. 
+    Gör om labb 6 fast med en implementering av radix sort? """
+
 class DictHash:
     def __init__(self):
         self.dictionary = {}

@@ -26,6 +26,8 @@ while value != "#":
     value = input()
  """
 
+# Kattis kod
+
 
 
 class song:
@@ -204,10 +206,9 @@ Wikipedia"""
 
 
 
-def quick_sort():
 
 
-    """ # https://www.geeksforgeeks.org/dsa/quick-sort-algorithm/
+""" # https://www.geeksforgeeks.org/dsa/quick-sort-algorithm/
 # partition function
 def partition(arr, low, high):
     
@@ -278,6 +279,7 @@ def partition(array, low, high):
 # och ovanstående kod i Chat-5.6 Luna, erhålls nedanstående kod: 
 
 def partition(array, low, high):
+    # Detta kallas Lomuto partitioning, finns även Naive och Hoare's (snabbast) https://www.geeksforgeeks.org/dsa/hoares-vs-lomuto-partition-scheme-quicksort/
     mid = (low + high) // 2
     array[mid], array[high] = array[high], array[mid]
 
@@ -293,6 +295,17 @@ def partition(array, low, high):
 
     return i + 1
 
+
+
+
+# Om man sorterar baserat på artist namn så får man flera fall där elementet man sorterar har dupletter. 
+# För att göra detta fall snabbare kan man använda en 3-delad partition istället. 
+# Men om man sorterar baserat på låt namn så är detta ett mindre problem och man kan få högre tidskomplexitet.
+# När man sorterar baserat på låt namn, finns det drygt 1 million unika element att sortera
+# När man sorterar baserat på artist namn så får man många dubletter 
+# och antalet unika element hamnar långt under, möjligtvis något i 10^5 skalan. 
+
+
 def quicksort(array, low=0, high=None):
     if high is None:
         high = len(array) - 1
@@ -303,16 +316,44 @@ def quicksort(array, low=0, high=None):
         quicksort(array, pivot_index+1, high)
 
 
-
+# Test
 my_array = [64, 34, 25, 12, 22, 11, 90, 5]
 quicksort(my_array)
 print("Sorted array:", my_array)
 
 
 
+
+# Radix sort, exempel. Väldigt opraktiskt för artist namn, men för ID kan vara möjligt!
+
+""" https://www.w3schools.com/dsa/dsa_algo_radixsort.php
+myArray = [170, 45, 75, 90, 802, 24, 2, 66]
+print("Original array:", myArray)
+radixArray = [[], [], [], [], [], [], [], [], [], []]
+maxVal = max(myArray)
+exp = 1
+
+while maxVal // exp > 0:
+
+    while len(myArray) > 0:
+        val = myArray.pop()
+        radixIndex = (val // exp) % 10
+        radixArray[radixIndex].append(val)
+
+    for bucket in radixArray:
+        while len(bucket) > 0:
+            val = bucket.pop()
+            myArray.append(val)
+
+    exp *= 10
+
+print("Sorted array:", myArray) """
+
+
+
+
+
 from codecarbon import OfflineEmissionsTracker
-
-
 
 tracker = OfflineEmissionsTracker(
     project_name = "helloworld",

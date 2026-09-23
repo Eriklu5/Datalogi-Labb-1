@@ -1,3 +1,4 @@
+from hashtable import Hashtable
 from Labb_1 import Drama
 import csv
 
@@ -48,42 +49,56 @@ print(Hashtabell.search("Reply 1988"))
 print(Hashtabell.search("Reborn Rich"))
 print(Hashtabell.search("Mission Impossible"))
 
-class Hashtable:
-    def __init__(self, size):
-        self.size = size
-        ...
 
-    def store(self, key, data):
-        ...
+def main():
+    hashtable = None
 
-    def search(self, key):
-        """Hämtar det objekt som finns lagrat med
-        nyckeln "key" och returnerar det.
-        Om "key" inte finns ska vi få en Exception,
-        KeyError."""
-        ...
-       # else:
-        #    raise KeyError
+    while True:
+        line = input()
+        key, *value = line.split()
+        if key == '#':
+            print('#')
+            break
+        elif key == 'init' and len(value) > 0:
+            size = int(value[0])
+            hashtable = Hashtable(size)
+            print('New size:', size)
+        elif len(value) > 0:
+            hashtable.store(key, value[0])
+            print(key, '<-', value[0])
+        else:
+            try:
+                value = hashtable.search(key)
+                print(f'{key}: {value}')
+            except KeyError:
+                print('KeyError:', key)
 
-    def hashfunction(self, key):
-        pass
+
+if __name__ == "__main__":
+    main()
 
 
-""" Hashtabellen ska åtminstone ha följande operationer:
+""" 
+Definiera en klass HashNode för hashtabellens noder. Noderna måste innehålla både nyckel och värde.
+Definiera en klass Hashtable som representerar hashtabellen. Hashtable ska ha samma funktionalitet som DictHash.
+Du måste skriva en egen hashfunktion, som ger en bra fördelning över hela tabellen.
+Någon krockhantering måste ingå, t ex krocklistor eller probning.
+Du ska använda KeyError för att tala om att en nyckel inte finns. 
 
-store(key, data) Lägg in data med nyckeln key i hashtabellen. 
-data = search(key) Hämta data som hör till key. 
-f = hashfunction(key) Beräkna hashfunktionen för key """
 
-""" def create_hash_table(lista):
-    lookup = {}
 
-    for song in lista:
-        lookup[song.title] = song
 
-    return lookup
+förklara varför hashning ger snabb sökning,
+    Linjär sökning i en oordnad lista av längd n tar i genomsnitt n/2 jämförelser, 
+    binär sökning i en sorterad lista log(n) 
+    men hashning går direkt på målet och kräver bara drygt en jämförelse. 
+    Detta eftersom den kan utföra en snabb beräkning med hashfunktionen och sedan titta på just det elementet istället för att gå igenom ett intervall
 
-def hash_search(lookup, target):
-    if lookup.get(target.title) != None:
-        return lookup.get(target.title)
-    else: print(False) """
+skissa hashtabellen,
+
+motivera ditt val av hashfunktion, krockhantering och tabellstorlek genom att
+    redogöra för hur bra fördelningen är, t.ex. genom att mäta hur många krockar det är som mest vid insättning,
+
+    beskriva och rita hur din krockhantering fungerar,
+    
+    """

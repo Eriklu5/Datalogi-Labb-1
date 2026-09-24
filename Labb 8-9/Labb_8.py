@@ -21,18 +21,132 @@ print("För litet tal vid radslutet")
 
  """
 
+
+
+""" Rules to Draw a Parse Tree
+All leaf nodes need to be terminals.
+All interior nodes need to be non-terminals.
+In-order traversal gives the original input string. """
+
+
 # Inläsningsmetoder
-läs_molekyl()
-läs_atom()
-läs_LETTER()
-läs_letter()
-läs_num()
+q = LinkedQ
+molekyl = input()
+
+while molekyl != "#": 
+    q.append(molekyl)
+    molekyl = input()
+
+
+def läs_molekyl(molekyl):
+    if molekyl == None: # Ska inte göras
+        raise SyntaxError()
+    läs_atom()
+    läs_atom() and läs_num()
+    
+
+def läs_atom(atom):
+    if atom == läs_LETTER:
+        pass
+    else: läs_letter() and läs_num()
+
+def läs_LETTER(stor_bokstav):
+
+    raise SyntaxError("")
+def läs_letter(liten_bokstav):
+    pass
+def läs_num(siffra):
+    pass
+
+def readformel(kö):
+    for element in kö:
+        molekyl = kö.peek()
+        if molekyl == läs_molekyl(molekyl):
+            return
+
+
+# Från labb 9:
+def main():
+    #stdin = open("indata1.txt") #Lätt att ändra för att testa indata från fil
+    rad = stdin.readline()
+    while rad[0] != "#":
+        q = LinkedQ()
+        for tkn in rad:
+            q.enqueue(tkn)
+        try:
+            readformel(q)
+            print("Formeln är syntaktiskt korrekt")
+        except Syntaxfel as felet:
+            rest = str(q).strip()
+            print(felet, "vid radslutet", rest)
+        rad = stdin.readline()
+
+main()
+
+
 
 # Nästa, steg 4. 
 """ Skriv ett testprogram med unittest som ska kontrollera
 att dina funktioner fungerar som avsett. Se exempel från syntaxföreläsningen. 
 T ex kan ett test vara att kön innehåller en syntaktiskt korrekt molekyl, 
 som A -> a -> 5 (OBS! De fem funktionerna ska skrivas i nästa punkt.) """
+
+
+
+import unittest
+
+from syntax import *
+
+
+class SyntaxTest(unittest.TestCase):
+
+    def testSubjPred(self):
+        """ Testar Subj och Pred """
+        self.assertEqual(kollaGrammatiken("JAG VET"), "Följer syntaxen!")
+
+    def testFelKonj(self):
+        self.assertEqual(kollaGrammatiken("JAG VET MEN"), "Fel konjunktion: MEN före . ")
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+
+class SyntaxTest(unittest.TestCase):
+    def test_syntax(self):
+        self.assertEqual
+        pass
+    def test_fel(self):
+        pass
+    def test_korrekt_ordning(self):
+        pass
+        self.assertRaises(SyntaxError)
+
+
+# Korrekt användning av varje funktion
+    def test_main(self):
+        self.assertEqual(main(), print("Formeln är syntaktiskt korrekt"))
+        pass
+    def test_readformel(self):
+        self.assertEqual(readformel())
+    def test_molekyl(self):
+        molekyl = H2SO4
+        self.assertTrue(läs_molekyl(molekyl))
+        pass
+    def test_atom(self):
+        self.assertTrue(läs_atom())
+        pass
+    def test_LETTER(self):
+        self.assertTrue(läs_LETTER())
+        pass
+    def test_letter(self):
+        self.assertTrue(läs_letter())
+
+        pass
+    def test_num(self):
+        self.assertTrue(läs_num())
+        pass
+
 # Steg 5. Implementera inläsningsmetoderna
 
 from linkedQFile_Labb_8 import LinkedQ
@@ -149,32 +263,5 @@ Gå till Kattis och se till att ditt program klarar alla testfall!
       
         
 
-lista = []
-molekyl = input()
-
-while molekyl != "#": 
-    lista.append(molekyl)
-    molekyl = input()
 
 
-
-
-
-
-
-import unittest
-
-from syntax import *
-
-
-class SyntaxTest(unittest.TestCase):
-
-    def testSubjPred(self):
-        """ Testar Subj och Pred """
-        self.assertEqual(kollaGrammatiken("JAG VET"), "Följer syntaxen!")
-
-    def testFelKonj(self):
-        self.assertEqual(kollaGrammatiken("JAG VET MEN"), "Fel konjunktion: MEN före . ")
-
-if __name__ == '__main__':
-    unittest.main()

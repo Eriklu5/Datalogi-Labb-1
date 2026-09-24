@@ -5,12 +5,12 @@ def binary_search(list, target): # behöver en sorterad lista
     while left <= right:
         mid = (left + right) // 2
         if list[mid] == target:
-            return True
+            return list[mid]
         elif list[mid] < target:
             left = mid +1
         else:
             right = mid -1
-    return False
+    return None
 
 
 class song:
@@ -21,7 +21,7 @@ class song:
         self.title = title
 
     def __str__(self):
-        return self.title + "av" + self.artist
+        return self.title + "av " + self.artist
 
     def __lt__(self, other):
         return self.artist < other.artist
@@ -29,7 +29,7 @@ class song:
     def __eq__(self,other):
         return self.artist == other.artist
 
-def readfile(file = "Datalogi-Labb-1/unique_tracks.txt"):
+def readfile(file = "unique_tracks.txt"):
     rader = []
     with open(file, "r") as file:
         for rad in file:
@@ -43,6 +43,7 @@ import timeit
 
 timeit.timeit
 
+import random
 
 
 def linear_search(list, target): # beter sig väldigt konstigt om listan inte är sorterad
@@ -67,35 +68,32 @@ def hash_search(lookup, target):
 
 def linjär_sök_test(lista):
     n = len(lista)
-    #print("Antal element =", n)
 
     sista = lista[n-1]
     testartist = sista
 
-    linjtid = timeit.timeit(stmt = lambda: linear_search(lista, testartist), number = 100)
+    linjtid = timeit.timeit(stmt = lambda: linear_search(lista, lista[random.randint(0,(len(lista)-1))]), number = 10000)
     print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
 
 
 
 def binär_sök_test(lista):
     n = len(lista)
-    #print("Antal element =", n)
 
     sista = lista[n-1]
     testartist = sista
 
-    linjtid = timeit.timeit(stmt = lambda: binary_search(lista, testartist), number = 100)
+    linjtid = timeit.timeit(stmt = lambda: binary_search(lista, lista[random.randint(0,(len(lista)-1))]), number = 10000)
     print("binärsökningen tog", round(linjtid, 4) , "sekunder")
 
 
 def hash_sök_test(lista):
     n = len(lista)
-    #print("Antal element =", n)
     dictonary = create_hash_table(lista)
     sista = lista[n-1]
     testartist = sista
 
-    linjtid = timeit.timeit(stmt = lambda: hash_search(dictonary, testartist), number = 100)
+    linjtid = timeit.timeit(stmt = lambda: hash_search(dictonary, lista[random.randint(0,(len(lista)-1))]), number = 10000)
     print("Hashsökningen tog", round(linjtid, 4) , "sekunder")
 
 
@@ -106,9 +104,7 @@ listor = [mindreListan, mellanListan, listan]
 
 for lista in listor:
     print("n =",len(lista))
-    lista.sort()
     linjär_sök_test(lista)
+    lista.sort()
     binär_sök_test(lista)
     hash_sök_test(lista)
-
-

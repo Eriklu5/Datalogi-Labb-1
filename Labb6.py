@@ -110,3 +110,5 @@ for lista in listor:
     linjär_sök_test(lista)
     binär_sök_test(lista)
     hash_sök_test(lista)
+
+

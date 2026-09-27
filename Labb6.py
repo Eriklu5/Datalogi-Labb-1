@@ -63,22 +63,88 @@ def hash_search(lookup, target):
     return lookup.get(target.title)
 
 
-listan = readfile()
-mindreListan = listan[0:250000]
-mellanListan = listan[0:500000]
-listor = [mindreListan, mellanListan, listan]
+def insertion_sort(list): #o(n^2) (geeksforgeeks.org/dsa/insertion-sort-algorithm)
+    for i in range(1,len(list)):
+        key = list[i]
+        j = i - 1
 
-for lista in listor:
-    print("n =",len(lista))
+        while j>=0 and list[j] > key:
+            list[j + 1] = list[j]
+            j -= 1
 
-    linjtid = timeit.timeit(stmt = lambda: linear_search(lista, lista[random.randint(0,(len(lista)-1))]), number = 10000)
-    print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
+        list[j + 1] = key
 
-    lista.sort()
 
-    bintid = timeit.timeit(stmt = lambda: binary_search(lista, lista[random.randint(0,(len(lista)-1))]), number = 10000)
-    print("binärsökningen tog", round(bintid, 4) , "sekunder")
+def quicksort(data): # Föreläsnings anteckningar
+    sista = len(data) - 1
+    qsort(data, 0, sista)
 
-    dictonary = create_hash_table(lista)
-    hashtid = timeit.timeit(stmt = lambda: hash_search(dictonary, lista[random.randint(0,(len(lista)-1))]), number = 10000)
-    print("Hashsökningen tog", round(hashtid, 4) , "sekunder")
+def qsort(data, low, high):
+    pivotindex = (low+high)//2
+    # flytta pivot till kanten
+    data[pivotindex], data[high] = data[high], data[pivotindex]  
+    
+    # damerna först med avseende på pivotdata
+    pivotmid = partitionera(data, low-1, high, data[high]) 
+    
+    # flytta tillbaka pivot
+    data[pivotmid], data[high] = data[high], data[pivotmid]       
+    
+    if pivotmid-low > 1:
+        qsort(data, low, pivotmid-1)
+    if high-pivotmid > 1:
+        qsort(data, pivotmid+1, high)
+
+def partitionera(data, v, h, pivot):
+    while True:
+        v = v + 1
+        while data[v] < pivot:
+            v = v + 1
+        h = h - 1
+        while h != 0 and data[h] > pivot:
+            h = h - 1
+        data[v], data[h] = data[h], data[v]
+        if v >= h: 
+            break
+    data[v], data[h] = data[h], data[v]
+    return v
+
+
+
+def sökningstest(listor):
+    for lista in listor:
+        print("n =",len(lista))
+
+        linjtid = timeit.timeit(stmt = lambda: linear_search(lista, lista[random.randint(0,(len(lista)-1))]), number = 10000) # tar tid på linjärsökning
+        print("Linjärsökningen tog", round(linjtid, 4) , "sekunder")
+
+        lista.sort()
+
+        bintid = timeit.timeit(stmt = lambda: binary_search(lista, lista[random.randint(0,(len(lista)-1))]), number = 10000) # tar tid på binär sökning 
+        print("Binärsökningen tog", round(bintid, 4) , "sekunder")
+
+        dictonary = create_hash_table(lista)
+        hashtid = timeit.timeit(stmt = lambda: hash_search(dictonary, lista[random.randint(0,(len(lista)-1))]), number = 10000) # tar tid på sökning i en hash tabell
+        print("Hashsökningen tog", round(hashtid, 4) , "sekunder")
+
+
+def sorteringstest(listor):
+    for lista in listor:
+        print("n =",len(lista))
+        inserttid = timeit.timeit(stmt = lambda: insertion_sort(lista), number = 1) # tar tid på sökning i en hash tabell
+        print("Insertion sort tog ",round(inserttid,4), "sekunder")
+
+        quicktid = timeit.timeit(stmt = lambda: quicksort(lista), number = 1) # tar tid på sökning i en hash tabell
+        print("Quicksort tog ",round(quicktid,4), "sekunder")
+
+
+def main():
+
+    listan = readfile()
+    listan2 = listan[0:]
+    listor = [listan[0:250000], listan[0:500000], listan]
+    sökningstest(listor)
+    listor2 = [listan2[0:1000],listan2[0:10000],listan2[0:100000],listan2]
+    sorteringstest(listor2)
+
+main()

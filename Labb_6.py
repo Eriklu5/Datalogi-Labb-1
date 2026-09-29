@@ -149,7 +149,7 @@ def main():
         linjtid = timeit.timeit(stmt = lambda: search_function(lista, testartist), number = 100)
         print(search_function.__name__, "tog", round(linjtid, 4) , "sekunder\n")
 
-    linjtid = timeit.timeit(stmt = lambda: hash_search(dictionary, testartist), number = 1000)
+    linjtid = timeit.timeit(stmt = lambda: hash_search(dictionary, testartist), number = 100)
     print(hash_search.__name__, "tog", round(linjtid, 4) , "sekunder\n")
       
 main()
@@ -426,4 +426,67 @@ mellan de olika sorteringsmetoderna.
 Visa hur dina sök-, och sorteringsfunktioner fungerar,
 Förklara och redovisa vilken tidskomplexitet dina algoritmer har,
 Förklara skillnaden i tid mellan de olika sökningsmetoderna och mellan de olika sorteringsmetoderna."""
+
+
+
+""" 
+Skriv upp tidskomplexiteten för de algoritmer du tagit tid på ovan. Stämmer dina resultat med teorin? Om inte - vad kan det bero på?
+
+Skriv en kommentar sist i ditt program där du analyserar dina resultat. 
+Det går också bra att skriva en separat fil och lämna in den tillsammans med koden. 
+Förklara skillnaden i uppmätta tider när storleken på listan varieras:
+
+    mellan de olika sökningsmetoderna
+    mellan de olika sorteringsmetoderna. 
+    
+    
+
+    Quicksort: O(nlogn), värsta O(n^2)
+    Insertionsort: O(n^2)
+    
+    Linjärsökning: O(n), genomsnittlig O(n/2)
+    Binärsökning: O(logn)
+    Hashsökning: O(1), dåligt implementerad hash O(n)
+
+Detta stämmer någolunda experimentellt.
+
+
+
+Resultat (för sökandet av slumpad artist):
+
+Tidskomplexitet sökning
+Linjärsökning   Binärsökning    Sökning i hashtabell
+O(1)-O(n)       O(log(n))       O(1) (i praktiken ofta lite sämre pga dubletter)
+
+Uppmätta tider sökning (number = 10000) (Mätt i sekunder)ag tror att 
+n =                     250000  500000  1000000
+Linjärsökning           48.7021 73.9763 78.0395
+Binärsökning            0.0835  0.0816  0.0906
+Sökning i hashtabell    0.0138  0.0146  0.0172
+
+Brett sätt stämmer beetendet med teorin
+Linjärsökningen tog ett mycket mindre hopp i tid mellan n=500000 och n=1000000 än 
+förväntat men detta beror nog på att samma artist finns med flera gånger i listan
+så chansen att artisten finns längre fram i listan ökar. 
+Linjärsökningen hade tur många gånger för n=1000000
+eller att det finns många dubbletter i andra halvan av 1000000 listan.
+Eftersom de mindre n bestod av de första 250000 respektive 500000 av 1000000 listan
+
+
+Tidskomplexitet sortering
+Insättningssortering    Quicksort
+O(n^2)                  O(n*log(n))
+
+Uppmätta tider sortering (number = 1) (Mätt i sekunder)
+n =                     1000    10000   100000  1000000
+Insättningssortering    0.0906  9.8751  1185.02 Körde inte, uppskattar att det skulle ta ≈30 h 
+Quicksort               0.0024  0.0399  0.4841  6.7564
+
+
+
+Quicksort presterar lite sämre än förväntat pågrund av dubletter av artist. 
+
+
+
+    """
 

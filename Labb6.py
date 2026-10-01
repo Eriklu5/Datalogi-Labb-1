@@ -55,15 +55,15 @@ def create_hash_table(lista):
     lookup = {}
 
     for song in lista:
-        lookup[song.title] = song
+        lookup[song.artist] = song
 
     return lookup
 
 def hash_search(lookup, target):
-    return lookup.get(target.title)
+    return lookup.get(target.artist)
 
 
-def insertion_sort(list): #o(n^2) (geeksforgeeks.org/dsa/insertion-sort-algorithm)
+def insertion_sort(list): # Kopierad från geeksforgeeks.org/dsa/insertion-sort-algorithm
     for i in range(1,len(list)):
         key = list[i]
         j = i - 1
@@ -75,7 +75,7 @@ def insertion_sort(list): #o(n^2) (geeksforgeeks.org/dsa/insertion-sort-algorith
         list[j + 1] = key
 
 
-def quicksort(data): # Föreläsnings anteckningar
+def quicksort(data): # Kopierad från föreläsningsanteckningar
     sista = len(data) - 1
     qsort(data, 0, sista)
 
@@ -156,7 +156,7 @@ Det finns flera låtar av samma artist i listan vilket
 jag tror tjänar linjärsökning mest eftersom det ökar chansen 
 att hitta en låt av rätt artist tidigt i listan.
 Det försämmrar antagligen quicksort och skulle kunna 
-försämra sökning i hashtabbel men vår hashtabell skriver 
+försämra sökning i hashtabell men vår hashtabell skriver 
 över dubbletter vilket gör att det inte bör bli några krockar
 
 
@@ -168,7 +168,7 @@ Uppmätta tider sökning (number = 10000) (Mätt i sekunder)
 n =                     250000  500000  1000000
 Linjärsökning           48.7021 73.9763 78.0395
 Binärsökning            0.0835  0.0816  0.0906
-Sökning i hashtabell    0.0138  0.0146  0.0172
+Sökning i hashtabell    0.0142  0.0152  0.0161
 
 Brett sätt stämmer beetendet med teorin
 Linjärsökningen tog ett mycket mindre hopp i tid mellan n=500000 och n=1000000 än 

@@ -22,6 +22,7 @@ class Hashtable:
             Stoppar in "data" med nyckeln "key" i tabellen."""
         
         hash_value = self.hashfunction(key)
+        start_value = hash_value
         if self.slots[hash_value] is None:
             self.slots[hash_value] = HashNode(key, data)
             return
@@ -30,7 +31,7 @@ class Hashtable:
             if self.slots[hash_value].key == key: # Skriver över om samma key redan finns 
                 self.slots[hash_value] = HashNode(key, data)
                 return
-            hash_value = hash_value + i**2 # kavdratisk probning
+            hash_value = start_value + i**2 # kavdratisk probning h+1.h+4,h+9 osv
             if hash_value >= self.size:
                 hash_value = hash_value % self.size
             i += 1
@@ -44,11 +45,12 @@ class Hashtable:
          Om "key" inte finns ska det bli KeyError """
         
         hash_value = self.hashfunction(key)
+        start_value = hash_value
         i = 1
         while self.slots[hash_value] != None: # Går samma väg som store gör vid krock
             if self.slots[hash_value].key == key:
                 return self.slots[hash_value].data
-            hash_value = hash_value + i**2
+            hash_value = start_value + i**2
             if hash_value >= self.size:
                 hash_value = hash_value % self.size
             i += 1

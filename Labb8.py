@@ -75,14 +75,14 @@ def läs_atom(atom):
         läs_letter(atom)
 
 def läs_LETTER(stor_bokstav):
-    if stor_bokstav.peek() in ["A","B","C","D","...etc"]:
+    if stor_bokstav.peek().isupper():
         stor_bokstav.dequeue()
         return
     else:
         raise SyntaxError("Saknad stor bokstav vid radslutet")
 
 def läs_letter(liten_bokstav):
-    if liten_bokstav.peek() in ["a","b","c","d","...etc"]:
+    if liten_bokstav.peek().islower():
         liten_bokstav.dequeue()
         return
     else:

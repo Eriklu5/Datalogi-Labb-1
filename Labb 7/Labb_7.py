@@ -1,5 +1,5 @@
 from hashtable import Hashtable
-from Labb_1 import Drama
+from Datalogi-Labb-1.Labb_1 import Drama
 import csv
 
 

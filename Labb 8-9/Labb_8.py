@@ -16,18 +16,22 @@ grammar = r"""
       <LETTER>::= A | B | C | ... | Z
       <letter>::= a | b | c | ... | z
       <num>   ::= 2 | 3 | 4 | ...
+    Labb 8:
+      <group> ::= <atom> | <atom><num>
+      <atom>  ::= <LETTER> | <LETTER><letter>
+      <LETTER>::= A | B | C | ... | Z
+      <letter>::= a | b | c | ... | z
+      <num>   ::= 2 | 3 | 4 | ...
 
-      %import common.WS
-      %ignore WS
  """
-""" parser = Lark(grammar, start="molekyl")
-parser.parse("CH4") """
 
 
-# Labb 8:
 
-class Syntaxfel(Exception):
-    pass
+""" Rules to Draw a Parse Tree
+All leaf nodes need to be terminals.
+All interior nodes need to be non-terminals.
+In-order traversal gives the original input string. """
+
 
 # Inläsningsmetoder
 
@@ -109,12 +113,8 @@ main() """
 class SyntaxTest(unittest.TestCase):
     # Allmän testning
     def test_syntax(self):
-        molekyl = "CH4"
-        q = LinkedQ()
-        for tkn in molekyl:
-            q.enqueue(tkn)
-        self.assertEqual(readformel(q))
-
+        self.assertEqual
+        pass
     def test_fel(self):
         pass
 

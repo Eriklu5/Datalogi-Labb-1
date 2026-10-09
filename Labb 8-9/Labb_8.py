@@ -6,9 +6,9 @@ All interior nodes need to be non-terminals.
 In-order traversal gives the original input string. """
 
 from linkedQFile_Labb_8 import LinkedQ
-from syntax import *
+# from syntax import *
 import unittest
-from lark import Lark
+# from lark import Lark
 
 grammar = r""" 
      <molekyl> ::= <atom> | <atom><num>
@@ -16,54 +16,49 @@ grammar = r"""
       <LETTER>::= A | B | C | ... | Z
       <letter>::= a | b | c | ... | z
       <num>   ::= 2 | 3 | 4 | ...
-    Labb 8:
-      <group> ::= <atom> | <atom><num>
-      <atom>  ::= <LETTER> | <LETTER><letter>
-      <LETTER>::= A | B | C | ... | Z
-      <letter>::= a | b | c | ... | z
-      <num>   ::= 2 | 3 | 4 | ...
-
  """
 
 
-
-""" Rules to Draw a Parse Tree
-All leaf nodes need to be terminals.
-All interior nodes need to be non-terminals.
-In-order traversal gives the original input string. """
+class Syntaxfel(Exception):
+    pass
 
 
 # Inläsningsmetoder
 
+def readformel(kö):
+    läs_atom(kö)
+    if kö.peek().isdigit():
+        läs_num(kö)
 
-def läs_atom(kö_data):
-    läs_LETTER(kö_data)
-    if kö_data.peek().islower():
-        läs_letter(kö_data)
+            
+def läs_atom(kö):
+    läs_LETTER(kö)
+    if kö.peek() != None and not kö.peek().isdigit():
+        läs_letter(kö)
 
 
-def läs_LETTER(kö_data):
-    # is upper kollar om alla bokstäver är stora och det finns något,
-    # men vi vet att endast ett element (bokstav eller siffra) kollas åt gången så detta utgör inget problem
-    element = kö_data.peek()
-    if (len(element) == 1 and "A" < element < "Z") or element.isupper():
-        kö_data.dequeue()
+def läs_LETTER(kö):
+    element = kö.peek()
+    if (len(element) == 1 and "A" <= element <= "Z") or element.isupper():
+        kö.dequeue()
         return
     raise Syntaxfel("Saknad stor bokstav")
 
 
-def läs_letter(kö_data):
-    kö_data.dequeue()
-    # raise Syntaxfel("Saknad stor bokstav")
+def läs_letter(kö):
+    element = kö.peek()
+    if element.islower():
+        kö.dequeue()
+        return
+    raise Syntaxfel("Saknad liten bokstav")
 
 
-def läs_num(kö_data):
-    if int(kö_data.peek()) < 2:
-        kö_data.dequeue()
-        while kö_data.peek() != None:
-            läs_num(kö_data)
-        raise Syntaxfel("För litet tal")
-    return
+def läs_num(kö):
+    siffra = kö.dequeue()
+    if int(siffra) >= 2:
+        return
+    raise Syntaxfel("För litet tal")
+
 
 
 """ Om vi tittar på exemplen på felaktiga indata ser vi att utskriften av "den del av imatningen som är kvar" ser lite olika ut i de olika exemplen. Här är två exempel:
@@ -79,79 +74,58 @@ Pb är en godkänd atom, så vi går vidare till siffrorna:
     Vi skriver också ut resten av kön, men den är tom, så ettan kommer inte med i felutskriften. """
 
 
-def readformel(kö):
-    while kö.peek() != None:
-        if kö.peek().isdigit():
-            läs_num(kö)
-        elif isinstance(kö.peek(), str):
-            läs_atom(kö)
-
-    return
-
-
-""" 
-# Från labb 9:
-def main():
-    # stdin = open("indata1.txt") #Lätt att ändra för att testa indata från fil
-    rad = stdin.readline()
-    while rad[0] != "#":
-        q = LinkedQ()
-        for tkn in rad:
-            q.enqueue(tkn)
-        try:
-            readformel(q)
-            print("Formeln är syntaktiskt korrekt")
-        except Syntaxfel as felet:
-            rest = str(q).strip()
-            print(felet, "vid radslutet", rest)
-        rad = stdin.readline()
-
-
-main() """
-
-
 class SyntaxTest(unittest.TestCase):
-    # Allmän testning
-    def test_syntax(self):
-        self.assertEqual
-        pass
-    def test_fel(self):
-        pass
+    # Feltestning
 
-    def test_korrekt_ordning(self):
-        pass
-        self.assertRaises(SyntaxError)
+    def test_fel(self):
+        molekyl = "KK4"
+        q = LinkedQ()
+        for tkn in molekyl:
+            q.enqueue(tkn)
+        self.assertRaises(Syntaxfel, readformel, q)
+
+        with self.assertRaises(Syntaxfel):
+            readformel(q)
+
 
     # Korrekt användning av varje funktion
-""" 
-    def test_main(self):
-        self.assertEqual(main(), print("Formeln är syntaktiskt korrekt"))
-        pass
+
+    """ def test_main(self):
+
+        self.assertEqual(main(), print("Formeln är syntaktiskt korrekt")) """
 
     def test_readformel(self):
-        self.assertEqual(readformel())
-
-    def test_molekyl(self):
-        molekyl = H2SO4
-        self.assertTrue(läs_molekyl(molekyl))
-        pass
+        molekyl = "H2SO4"
+        q = LinkedQ()
+        for tkn in molekyl:
+            q.enqueue(tkn)
+        self.assertEqual(readformel(q), None)
 
     def test_atom(self):
-        self.assertTrue(läs_atom())
-        pass
+        atom = "Au"
+        q = LinkedQ()
+        for tkn in atom:
+            q.enqueue(tkn)
+        self.assertEqual(läs_atom(q), None)
 
     def test_LETTER(self):
         bokstav = "A"
-        self.assertTrue(läs_LETTER(bokstav), "Det stämmer")
+        q = LinkedQ()
+        q.enqueue(bokstav)
+        self.assertEqual(läs_LETTER(q), None)
 
     def test_letter(self):
-        self.assertTrue(läs_letter())
-
-        pass
+        bokstav = "a"
+        q = LinkedQ()
+        q.enqueue(bokstav)
+        self.assertEqual(läs_letter(q), None)
 
     def test_num(self):
-        self.assertTrue(läs_num())
-        pass """
+        nummer = "3"
+        q = LinkedQ()
+        q.enqueue(nummer)
+        self.assertEqual(läs_num(q), None)
+
 
 
 if __name__ == '__main__':

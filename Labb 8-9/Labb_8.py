@@ -79,7 +79,8 @@ def readformel(kö):
     while kö.peek() != None:
         if kö.peek().isdigit():
             läs_num(kö)
-        läs_atom(kö)
+        elif isinstance(kö.peek(), str):
+            läs_atom(kö)
 
     return
 

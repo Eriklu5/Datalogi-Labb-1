@@ -1,7 +1,6 @@
 from hashtable import Hashtable
-from Labb_1 import Drama
+from Datalogi-Labb-1.Labb_1 import Drama
 import csv
-
 
 
 """ Gör om labb 7 fast utan en linjär probning, utan med en dubbel hashning eller en annan probning!. 

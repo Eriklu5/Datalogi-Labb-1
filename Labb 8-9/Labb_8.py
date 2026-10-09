@@ -23,6 +23,7 @@ print("För litet tal vid radslutet")
 
 
 
+
 """ Rules to Draw a Parse Tree
 All leaf nodes need to be terminals.
 All interior nodes need to be non-terminals.
@@ -114,8 +115,12 @@ if __name__ == '__main__':
 
 class SyntaxTest(unittest.TestCase):
     def test_syntax(self):
-        self.assertEqual
-        pass
+        molekyl = "H2SO4"
+        q = LinkedQ()
+        for tkn in molekyl:
+            q.enqueue(tkn)
+        self.assertEqual(readformel(q), "Formeln är syntaktiskt korrekt")
+
     def test_fel(self):
         pass
     def test_korrekt_ordning(self):

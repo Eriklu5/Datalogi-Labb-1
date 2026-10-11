@@ -50,5 +50,5 @@ class LinkedQ:
     def peek(self):
         """ Returnerar datan lagrad i nod, annars False """
         if self.__first == None:
-            return False
+            return None
         return self.__first.data

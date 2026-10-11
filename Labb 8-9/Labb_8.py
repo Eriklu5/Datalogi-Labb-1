@@ -26,20 +26,22 @@ class Syntaxfel(Exception):
 # Inläsningsmetoder
 
 def readformel(kö):
-    läs_atom(kö)
-    if kö.peek().isdigit():
-        läs_num(kö)
+    while kö.peek() != None:
+        läs_atom(kö)
+        if kö.peek().isdigit():
+            läs_num(kö)
 
             
 def läs_atom(kö):
     läs_LETTER(kö)
-    if kö.peek() != None and not kö.peek().isdigit():
+    if kö.peek() != None and kö.peek().islower():
         läs_letter(kö)
 
 
 def läs_LETTER(kö):
     element = kö.peek()
-    if (len(element) == 1 and "A" <= element <= "Z") or element.isupper():
+    if  element.isupper():
+        # (len(element) == 1 and "A" <= element <= "Z")
         kö.dequeue()
         return
     raise Syntaxfel("Saknad stor bokstav")
@@ -78,7 +80,7 @@ class SyntaxTest(unittest.TestCase):
     # Feltestning
 
     def test_fel(self):
-        molekyl = "KK4"
+        molekyl = ".K4"
         q = LinkedQ()
         for tkn in molekyl:
             q.enqueue(tkn)
@@ -99,6 +101,7 @@ class SyntaxTest(unittest.TestCase):
         q = LinkedQ()
         for tkn in molekyl:
             q.enqueue(tkn)
+            # Den kollar H och 2 vilket stämmer, men slutar, koden måste köra tills kön är tom
         self.assertEqual(readformel(q), None)
 
     def test_atom(self):

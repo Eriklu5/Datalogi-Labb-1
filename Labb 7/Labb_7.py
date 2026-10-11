@@ -1,5 +1,10 @@
 from hashtable import Hashtable
-from Datalogi-Labb-1.Labb_1 import Drama
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from Labb_1 import Drama
 import csv
 
 
@@ -47,7 +52,7 @@ def read_drama_from_file(dramafile):
             Hashtabell.store(new_drama.drama_name, new_drama)
 
 
-read_drama_from_file("kdrama.csv")
+read_drama_from_file("Filer/kdrama.csv")
 print(f"\n{Hashtabell.search("Vincenzo")}")
 print(Hashtabell.search("Reply 1988"))
 print(Hashtabell.search("Reborn Rich"))

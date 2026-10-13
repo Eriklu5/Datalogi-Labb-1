@@ -37,7 +37,7 @@ Felaktig gruppstart vid radslutet 2
 Antingen Formeln är syntaktiskt korrekt eller någon av följande felutskrifter
 1. Okänd atom               # Klar (9,1)
 2. Saknad siffra            # Klar (9,3)
-3. Saknad högerparentes     # Ej Klar
+3. Saknad högerparentes     # Klar (9,4)
 4. Felaktig gruppstart      # Klar (9,2)
 5. För litet tal            # Klar (8)
 6. Saknad stor bokstav      # Klar (8)
@@ -60,19 +60,18 @@ class Syntaxfel(Exception):
 def readformel(kö):
     # \n menas att i syntaxen läses molekyler rad för rad endast en i taget
     # readline() gör så att i slutet finns \n vilket också läggs in i kön
-    läs_mol(kö)
-
-    # Dvs t.ex. while kö.peek() != "\n":
-    # Eller läs_mol(kö)
-    # if kö.peek() != "\n": raise Syntaxfel("Inget avslut")
-    raise Syntaxfel("Saknad högerparantes")
+    while kö.peek() != "\n" and kö.peek() != None:
+        # Denna loop ska alltid fånga \n före None, annars är det ett Syntaxfel
+        läs_mol(kö)
+    if kö.peek() == None:
+        raise Syntaxfel("Inget rad avslut")
 
 
 def läs_mol(kö):
     # Syntaxen hanterar inte mol, dvs antal mol, varje molekyl antas bara vara 1 mol inte flera
     # Mol signifierar istället endast hur många grupper som finns i molekylen, grupp +? grupp +? grupp...
     läs_grupp(kö)
-    if kö.peek() != "\n":
+    if kö.peek() != "\n" and kö.peek() != ")":
         läs_mol(kö)
 
 
@@ -85,18 +84,21 @@ def läs_grupp(kö):
             läs_atom(kö)
             if kö.peek().isdigit():
                 läs_num(kö)
-            return
+            return kö.peek()
 
         elif kö.peek() == "(":
             kö.dequeue()    # Vad händer om CH()4
             if kö.peek() != ")":
-                while kö.peek() != ")":
+                while kö.peek() != ")" and kö.peek() != "\n" and kö.peek() != None: # Denna fångar inte, därför får man oändlig rekursion vid mol()
                     läs_mol(kö)
 
-                kö.dequeue()
-                if kö.peek().isdigit():
-                    läs_num(kö)
-                raise Syntaxfel("Saknad siffra")
+                if kö.peek() == ")":
+                    kö.dequeue()
+                    if kö.peek().isdigit():
+                        läs_num(kö)
+                    raise Syntaxfel("Saknad siffra")
+                
+                raise Syntaxfel("Saknad högerparantes")
 
             raise Syntaxfel("Saknad innehåll")
 
@@ -109,11 +111,11 @@ def läs_atom(kö):
     if kö.peek().islower():
         L_bokstav = läs_letter(kö)
         if S_bokstav + L_bokstav in periodiska:
-            return
+            return kö.peek()
         raise Syntaxfel("Okänd atom")
 
     if S_bokstav in periodiska:
-        return
+        return kö.peek()
     raise Syntaxfel("Okänd atom")
 
 

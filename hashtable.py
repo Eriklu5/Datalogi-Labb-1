@@ -5,7 +5,6 @@ class HashNode:
          data är det objekt som ska hashas in"""
       self.key = key
       self.data = data
-      self.next = None
 
 # Från boken och canvas:
 class Hashtable:
@@ -67,14 +66,3 @@ class Hashtable:
         for tkn in key: # Tagen från föreläsning 10, den med bäst fördelning 
             h = 32*h  + ord(tkn)
         return h % self.size
-        
-test = Hashtable(10)
-
-test.store("bb","a")
-test.store("ac","b")
-test.store("ca","c")
-test.store("bd","a")
-test.store("fc","b")
-test.store("cag","c")
-test.store("ar","b")
-test.store("caf","c")

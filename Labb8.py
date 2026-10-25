@@ -48,8 +48,8 @@ class LinkedQ:
             return False
 
     def peek(self):
-        if self.__first.data == None:
-            return False
+        if self.__first == None:
+            return None
         return self.__first.data
 
 
@@ -63,6 +63,19 @@ class LinkedQ:
     <num>   ::= 2 | 3 | 4 | ...
 """
 
+def readformel(molekyl):
+    molekylkö = LinkedQ()
+    for tkn in molekyl:
+        molekylkö.enqueue(tkn)
+    try:
+        läs_molekyl(molekylkö) 
+        print("Formeln är syntaktiskt korrekt")
+    except Syntaxfel as felet:
+        rest = ""
+        while not molekylkö.isEmpty():
+            rest += molekylkö.dequeue()
+        print(felet, "vid radslutet", rest)
+
 
 def läs_molekyl(molekyl):
     läs_atom(molekyl)
@@ -71,59 +84,106 @@ def läs_molekyl(molekyl):
 
 def läs_atom(atom):
     läs_LETTER(atom)
-    if atom.peek() == "liten bokstav":
-        läs_letter(atom)
+    if atom.peek() != None:
+        if not atom.peek().isdigit():
+            läs_letter(atom)
 
 def läs_LETTER(stor_bokstav):
     if stor_bokstav.peek().isupper():
         stor_bokstav.dequeue()
         return
-    else:
-        raise SyntaxError("Saknad stor bokstav vid radslutet")
+    raise Syntaxfel("Saknad stor bokstav")
 
 def läs_letter(liten_bokstav):
     if liten_bokstav.peek().islower():
         liten_bokstav.dequeue()
         return
-    else:
-        raise SyntaxError("Saknad stor bokstav vid radslutet") # Varför ska den säga så känns märkligt men det finns inget fall för ex: BD2
+    raise Syntaxfel("Saknad stor bokstav") # Varför ska den säga så känns märkligt men det finns inget fall för ex: BD2
 
-def läs_num(siffra):
-    if siffra.peek() >= 2:
+def läs_num(siffra): 
+    if int(siffra.peek()) >= 2:
         siffra.dequeue()
         return
-    else:
-        raise SyntaxError("För litet tal vid radslutet")
- 
+    if siffra.peek() == "1":
+        siffra.dequeue()
+        if siffra.peek() != None:
+            if siffra.peek().isdigit():
+                siffra.dequeue()
+                return
+    siffra.dequeue()
+    raise Syntaxfel("För litet tal")
+
+##########
+    if int(siffra.peek()) >= 2:
+        siffra.dequeue()
+        return
+    if siffra.peek() == "0":
+        siffra.dequeue()
+        raise Syntaxfel("För litet tal")
+    siffra.dequeue()
+    if siffra.peek() != None:
+        if siffra.peek().isdigit():
+            siffra.dequeue()
+            return
+    raise Syntaxfel("För litet tal")
+
 
 class Syntaxfel(Exception):
     pass
 
-
+"""
 import unittest
 
 class SyntaxTest(unittest.TestCase):
 
     def testläs_num(self):
-        self.assertEqual(läs_num(5))
-        with self.assertRaises(SyntaxError):
-            läs_num("1")
+        atomkö = LinkedQ()
+        atomkö.enqueue(5)
+        atomkö.enqueue(1)
+        self.assertEqual(läs_num(atomkö),None)
+        with self.assertRaises(Syntaxfel):
+            läs_num(atomkö)
 
+    def testläs_letter(self):
+        atomkö = LinkedQ()
+        atomkö.enqueue("a")
+        atomkö.enqueue("B")
+        print("Kollar när läs_letter stämmer")
+        self.assertEqual(läs_letter(atomkö),None)
+        print("Kollar när läs_letter inte stämmer")
+        with self.assertRaises(Syntaxfel):
+            läs_letter(atomkö)
+            
 
-    def testSyntaxRätt(self):
-        molekyl = "H2"
-        q = LinkedQ()
-        for tkn in molekyl:
-            q.enqueue(tkn)
-
-        self.assertEqual(readformel(q), "Formeln är syntaktiskt korrekt") # readfomel tar en kö och kollar om molekylen är syntaktiskt korrekt
+    def testläs_LETTER(self):
+        atomkö = LinkedQ()
+        atomkö.enqueue("A")
+        atomkö.enqueue("b")
+        print("Kollar när läs_LETTER stämmer")
+        self.assertEqual(läs_LETTER(atomkö),None)
+        print("Kollar när läs_LETTER inte stämmer")
+        with self.assertRaises(Syntaxfel):
+            läs_LETTER(atomkö)
+            
 
     def testSyntaxFel(self):
-        self.assertEqual(main("cr12"), "Saknad stor bokstav vid radslutet cr12")
+        atomkö = LinkedQ()
+        for tkn in "cr12":
+            atomkö.enqueue(tkn)
+        with self.assertRaises(Syntaxfel):
+            läs_molekyl(atomkö)
+
+    def testSyntaxRätt(self):
+        atomkö = LinkedQ()
+        for tkn in "P21":
+            atomkö.enqueue(tkn)
+        self.assertEqual(läs_molekyl(atomkö),None)
 
 if __name__ == '__main__':
     unittest.main()
+"""
 
-
-hej = "hej"
-hej.isupper()
+indata = input()
+while indata != "#":
+    readformel(indata)
+    indata = input()

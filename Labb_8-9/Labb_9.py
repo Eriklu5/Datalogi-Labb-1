@@ -100,8 +100,6 @@ def läs_grupp(kö):
                 
                 raise Syntaxfel("Saknad högerparantes")
 
-            raise Syntaxfel("Saknad innehåll")
-
         raise Syntaxfel("Felaktig gruppstart")
 
 

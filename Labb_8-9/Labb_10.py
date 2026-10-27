@@ -20,14 +20,19 @@ mg = Molgrafik()
 mg.show(molekyl)
 
 
+class Syntaxfel(Exception):
+    pass
 
 
 def readatom():
     pass
 
 
-def readnum():
-    pass
+def readnum(kö):
+    siffra = kö.dequeue()
+    if int(siffra) >= 2:
+        return siffra
+    raise Syntaxfel("För litet tal")
 
 
 def readgroup():

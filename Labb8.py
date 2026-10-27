@@ -123,44 +123,48 @@ import unittest
 
 class SyntaxTest(unittest.TestCase):
 
-    def testläs_num(self):
+    def test_läs_num(self):
+        print("Kollar läs_num")
         atomkö = LinkedQ()
-        atomkö.enqueue(5)
-        atomkö.enqueue(1)
-        self.assertEqual(läs_num(atomkö),None)
-        with self.assertRaises(Syntaxfel):
+        atomkö.enqueue("5")
+        self.assertEqual(läs_num(atomkö),None) # när nummret >= 2
+        atomkö.dequeue()
+        atomkö.enqueue("1")
+        with self.assertRaises(Syntaxfel): # när nummret < 2
             läs_num(atomkö)
+        atomkö.enqueue("1")
+        atomkö.enqueue("1")
+        self.assertEqual(läs_num(atomkö),None) # när nummret >= 2 men måste kolla nästa siffra
 
-    def testläs_letter(self):
+
+    def test_läs_letter(self):
+        print("Kollar läs_letter")
         atomkö = LinkedQ()
         atomkö.enqueue("a")
         atomkö.enqueue("B")
-        print("Kollar när läs_letter stämmer")
         self.assertEqual(läs_letter(atomkö),None)
-        print("Kollar när läs_letter inte stämmer")
         with self.assertRaises(Syntaxfel):
             läs_letter(atomkö)
-            
 
-    def testläs_LETTER(self):
+    def test_läs_LETTER(self):
+        print("Kollar läs_LETTER")
         atomkö = LinkedQ()
         atomkö.enqueue("A")
         atomkö.enqueue("b")
-        print("Kollar när läs_LETTER stämmer")
         self.assertEqual(läs_LETTER(atomkö),None)
-        print("Kollar när läs_LETTER inte stämmer")
         with self.assertRaises(Syntaxfel):
             läs_LETTER(atomkö)
-            
 
-    def testSyntaxFel(self):
+    def test_SyntaxFel(self):
+        print("Kollar en felaktig atom")
         atomkö = LinkedQ()
         for tkn in "cr12":
             atomkö.enqueue(tkn)
         with self.assertRaises(Syntaxfel):
             läs_molekyl(atomkö)
 
-    def testSyntaxRätt(self):
+    def test_SyntaxRätt(self):
+        print("Kollar en korrekt atom")
         atomkö = LinkedQ()
         for tkn in "P21":
             atomkö.enqueue(tkn)

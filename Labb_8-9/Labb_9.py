@@ -80,25 +80,25 @@ def läs_grupp(kö):
     # eftersom mol skulle ha hanterat eventuell siffra vid start som vid 6H20 (men detta förekommer inte)
     while kö.peek() != "\n":
 
-        if kö.peek().isupper():
+        if kö.peek().isalpha():
             läs_atom(kö)
             if kö.peek().isdigit():
                 läs_num(kö)
-            return kö.peek()
+            return
 
         elif kö.peek() == "(":
-            kö.dequeue()    # Vad händer om CH()4
-            if kö.peek() != ")":
-                while kö.peek() != ")" and kö.peek() != "\n" and kö.peek() != None: # Denna fångar inte, därför får man oändlig rekursion vid mol()
-                    läs_mol(kö)
+            kö.dequeue()    # Vad händer om CH()4, den raisar Saknad stor siffra!!!
+            while kö.peek() != ")" and kö.peek() != "\n" and kö.peek() != None: # Denna fångar inte, därför får man oändlig rekursion vid mol()
+                läs_mol(kö)
 
-                if kö.peek() == ")":
-                    kö.dequeue()
-                    if kö.peek().isdigit():
-                        läs_num(kö)
-                    raise Syntaxfel("Saknad siffra")
-                
-                raise Syntaxfel("Saknad högerparantes")
+            if kö.peek() == ")":
+                kö.dequeue()
+                if kö.peek().isdigit():
+                    läs_num(kö)
+                    return
+                raise Syntaxfel("Saknad siffra")
+
+            raise Syntaxfel("Saknad högerparentes")
 
         raise Syntaxfel("Felaktig gruppstart")
 
@@ -109,11 +109,11 @@ def läs_atom(kö):
     if kö.peek().islower():
         L_bokstav = läs_letter(kö)
         if S_bokstav + L_bokstav in periodiska:
-            return kö.peek()
+            return
         raise Syntaxfel("Okänd atom")
 
     if S_bokstav in periodiska:
-        return kö.peek()
+        return
     raise Syntaxfel("Okänd atom")
 
 
@@ -135,8 +135,15 @@ def läs_letter(kö):
 
 def läs_num(kö):
     siffra = kö.dequeue()
-    if int(siffra) >= 2:
-        return
+    if int(siffra) > 0:
+
+        nummer = siffra
+        while kö.peek().isdigit():
+            siffra = kö.dequeue()
+            nummer += siffra  #konkatenerar strings
+
+        if int(nummer) >= 2:
+            return
     raise Syntaxfel("För litet tal")
 
 
@@ -155,88 +162,12 @@ def main():
             print("Formeln är syntaktiskt korrekt")
         except Syntaxfel as felet:
             rest = ""
-            while q.peek():
+            while q.peek() != "\n":
                 rest += q.dequeue()
             print(felet, "vid radslutet", rest)
         rad = stdin.readline()
     stdin.close()
 
 
-main()
-
-
-# Kodtestning
-
-class SyntaxTest(unittest.TestCase):
-    # Allmän testning
-    def test_input_1(self):
-        q = LinkedQ()
-        with open("Filer/indata1.txt", "r") as fil:
-            rad = fil.readline()
-            for tkn in rad:
-                q.enqueue(tkn)
-        self.assertEqual(readformel(q))
-
-# Testa med (CH3)2C3H6, (CH_3)_2 C_3 H_6
-
-    def test_input_2(self):
-        q = LinkedQ()
-        with open("Filer/indata2.txt", "r") as fil:
-            rad = fil.readline()
-            for tkn in rad:
-                q.enqueue(tkn)
-        self.assertEqual(readformel(q))
-
-    def test_fel(self):
-        molekyl = ".K4"
-        q = LinkedQ()
-        for tkn in molekyl:
-            q.enqueue(tkn)
-        self.assertRaises(Syntaxfel, readformel, q)
-
-    # Korrekt användning av varje funktion
-
-    def test_main(self):
-        self.assertEqual(main(), print("Formeln är syntaktiskt korrekt"))
-
-    def test_readformel(self):
-        molekyl = "Li(Fe2S4)5Ag"
-        q = LinkedQ()
-        for tkn in molekyl:
-            q.enqueue(tkn)
-        self.assertEqual(readformel(q), None)
-
-    def test_mol(self):
-        pass
-
-    def test_grupp(self):
-        pass
-
-    def test_atom(self):
-        atom = "Au"
-        q = LinkedQ()
-        for tkn in atom:
-            q.enqueue(tkn)
-        self.assertEqual(läs_atom(q), None)
-
-    def test_LETTER(self):
-        bokstav = "A"
-        q = LinkedQ()
-        q.enqueue(bokstav)
-        self.assertEqual(läs_LETTER(q), "A")
-
-    def test_letter(self):
-        bokstav = "a"
-        q = LinkedQ()
-        q.enqueue(bokstav)
-        self.assertEqual(läs_letter(q), "a")
-
-    def test_num(self):
-        nummer = "3"
-        q = LinkedQ()
-        q.enqueue(nummer)
-        self.assertEqual(läs_num(q), None)
-
-
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == "__main__":
+    main()

@@ -1,5 +1,10 @@
 #Testar klassen Hashtabell i filen hashfil.py
-from hashtable import Hashtable
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from Labb_7.hashtable import Hashtable
 import unittest
 
 #######################################################################
